@@ -10,9 +10,10 @@ const completeFlagName = "__complete__"
 
 var completeFlag = flag.Bool(completeFlagName, false, "return autocomplete details")
 
-// Complete checks whether the __complete__ flag is set, and if so returns a space-separated list
-// of all the defined flags, and then immediately exits the executable. If the __complete__ flag is
-// not set, then it just returns immediately.
+// Complete checks whether the __complete__ flag is set, and if so returns a list of all the
+// defined flags which corresponds to the format expected by the _arguments function in zsh, and
+// then immediately exits the executable. If the __complete__ flag is not set, then it just returns
+// immediately.
 func Complete() {
 	flag.Parse()
 	if !*completeFlag {
