@@ -31,7 +31,7 @@ func Complete() {
 		// TODO: Argument type:
 		// fmt.Printf("-%s=-[%s]:::_files\n", f.Name, f.Usage)
 
-		fmt.Printf("-%s=-[%s]\n", f.Name, f.Usage)
+		fmt.Printf("-%s=-[%s (%q)]\n", f.Name, f.Usage, f.Value.String())
 	})
 
 	// TODO: Multiple choice:
