@@ -18,11 +18,26 @@ func Complete() {
 	if !*completeFlag {
 		return
 	}
+
+	// TODO: Generate more friendly candiates for Bash completion. See
+	// http://fahdshariff.blogspot.co.uk/2011/04/writing-your-own-bash-completion.html
+
 	flag.VisitAll(func(f *flag.Flag) {
 		if f.Name == completeFlagName {
 			return
 		}
-		fmt.Printf("%s ", f.Name)
+
+		// TODO: Argument type:
+		// fmt.Printf("-%s=-[%s]:::_files\n", f.Name, f.Usage)
+
+		fmt.Printf("-%s=-[%s]\n", f.Name, f.Usage)
 	})
-	os.Exit(0) // TODO: Maybe use magic number.
+
+	// TODO: Multiple choice:
+	// fmt.Printf(":action:(aaa bbb ccc)\n")
+
+	// TODO: File names:
+	// fmt.Printf("*::file:_files\n")
+
+	os.Exit(0)
 }
