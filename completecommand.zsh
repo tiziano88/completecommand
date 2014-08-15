@@ -6,7 +6,11 @@ function _completecommand {
   ARGS[(($CURRENT - 1))]=
 
   # TODO: Suppress output.
-  flags=("${(@f)$($CMD $ARGS -__complete__)}")
+  out=$($CMD $ARGS -__complete__) 2> /dev/null
+  [[ $? == 0 ]] || return
+  [[ "$out" != "" ]] || return
+
+  flags=("${(@f)out}")
 
   [[ $? == 0 ]] || return
 
