@@ -34,11 +34,8 @@ func Complete() {
 		fmt.Printf("-%s=-[%s (%q)]\n", f.Name, f.Usage, f.Value.String())
 	})
 
-	// TODO: Multiple choice:
-	// fmt.Printf(":action:(aaa bbb ccc)\n")
-
-	// TODO: File names:
-	// fmt.Printf("*::file:_files\n")
+	// Allow completing unlimited file names in the general case.
+	fmt.Printf("*:file:_files\n")
 
 	os.Exit(0)
 }

@@ -3,9 +3,10 @@ function _completecommand {
 
   ARGS=(${words[2,-1]})
   # Remove currently edited word, since it may be an incomplete and therefore invalid flag.
+  CANDIDATE=${ARGS[(($CURRENT - 1))]}
   ARGS[(($CURRENT - 1))]=
 
-  out=$($CMD $ARGS -__complete__) 2> /dev/null
+  out=$($CMD -__complete__ $ARGS) 2> /dev/null
   [[ $? == 0 ]] || return
   [[ "$out" != "" ]] || return
 
