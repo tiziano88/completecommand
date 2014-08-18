@@ -15,7 +15,6 @@ function _completecommand {
   [[ $? == 0 ]] || return
 
   _arguments "${flags[@]}"
-  _arguments "${flags[@]}"
 }
 
 compdef _completecommand -P "*"
