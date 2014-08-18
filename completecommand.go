@@ -4,11 +4,12 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
 )
 
 const completeFlagName = "__complete__"
 
-var completeFlag = flag.Bool(completeFlagName, false, "return autocomplete details")
+var completeFlag = flag.String(completeFlagName, "", "return autocomplete details")
 
 // Complete checks whether the __complete__ flag is set, and if so returns a list of all the
 // defined flags which corresponds to the format expected by the _arguments function in zsh, and
@@ -16,13 +17,20 @@ var completeFlag = flag.Bool(completeFlagName, false, "return autocomplete detai
 // immediately.
 func Complete() {
 	flag.Parse()
-	if !*completeFlag {
+
+	switch *completeFlag {
+	case "":
 		return
+	case "zsh":
+		completeZSH()
+	case "bash":
+		completeBash()
 	}
 
-	// TODO: Generate more friendly candiates for Bash completion. See
-	// http://fahdshariff.blogspot.co.uk/2011/04/writing-your-own-bash-completion.html
+	os.Exit(0)
+}
 
+func completeZSH() {
 	flag.VisitAll(func(f *flag.Flag) {
 		if f.Name == completeFlagName {
 			return
@@ -36,6 +44,20 @@ func Complete() {
 
 	// Allow completing unlimited file names in the general case.
 	fmt.Printf("*:file:_files\n")
+}
 
-	os.Exit(0)
+func completeBash() {
+	// https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion-Builtins.html
+
+	names := make([]string, 0)
+	flag.VisitAll(func(f *flag.Flag) {
+		if f.Name == completeFlagName {
+			return
+		}
+		names = append(names, "-"+f.Name)
+	})
+	fmt.Printf("-W '%s' ", strings.Join(names, " "))
+
+	// Allow completing unlimited file names in the general case.
+	fmt.Printf("-f ")
 }

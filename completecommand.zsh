@@ -6,7 +6,7 @@ function _completecommand {
   CANDIDATE=${ARGS[(($CURRENT - 1))]}
   ARGS[(($CURRENT - 1))]=
 
-  out=$($CMD -__complete__ $ARGS) 2> /dev/null
+  out=$($CMD -__complete__=zsh $ARGS) 2> /dev/null
   [[ $? == 0 ]] || return
   [[ "$out" != "" ]] || return
 
@@ -14,6 +14,7 @@ function _completecommand {
 
   [[ $? == 0 ]] || return
 
+  _arguments "${flags[@]}"
   _arguments "${flags[@]}"
 }
 
